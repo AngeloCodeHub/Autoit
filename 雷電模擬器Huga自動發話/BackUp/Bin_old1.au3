@@ -35,8 +35,8 @@ While 1
 		Case $iOKButton
 			$inputValue1 = GUICtrlRead($inputConID1)
 			$inputValue2 = GUICtrlRead($inputConID2)
-			_FileWriteToLine(@WorkingDir & "\String.txt", 1, $inputValue1, True)
-			_FileWriteToLine(@WorkingDir & "\String.txt", 2, $inputValue2, True)
+			_FileWriteToLine(@WorkingDir & "\String.txt",1,$inputValue1,True)
+			_FileWriteToLine(@WorkingDir & "\String.txt",2,$inputValue2,True)
 			ExitLoop
 	EndSwitch
 WEnd
@@ -48,7 +48,7 @@ GUIDelete($hGUI)
 WinActivate("[CLASS:LDPlayerMainFrame]", "")
 WinMove("[CLASS:LDPlayerMainFrame]", "", 1, 1)
 
-;ControlClick需要測試，使用無效
+;以下ControlClick需要測試
 ;ControlClick("[CLASS:subWin;INSTANCE:1]","","","left",1,991,815)
 
 ;無限迴圈
@@ -67,7 +67,7 @@ WEnd
 
 
 #cs
-	For $i = 1 To 999999 Step 1
+For $i = 1 To 999999 Step 1
 	MouseClick("left", 800, 815, 1, 60)
 	Sleep(4 * 1000) ;等待X秒送出字串
 	Send($StringValue, 0)
@@ -77,7 +77,7 @@ WEnd
 	MouseClick("left", 953, 456, 1, 60)
 	Sleep(15 * 1000) ;等待XX秒重新發話
 	MouseClick("left", 953, 456, 1, 60)
-	Next
+Next
 #ce
 
 
