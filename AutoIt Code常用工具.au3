@@ -6,4 +6,5 @@
 #include <MsgBoxConstants.au3>
 MsgBox(0,"測試",@ProgramsDir)
 
+;mklink
 
