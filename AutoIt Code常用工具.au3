@@ -6,5 +6,11 @@
 #include <MsgBoxConstants.au3>
 MsgBox(0,"測試",@ProgramsDir)
 
-;mklink
+;mklink，使用mklink建立連結(注意是檔案or目錄)
+RunWait(@ComSpec&" /c mklink /j "&@LocalAppDataDir&$LinkDir2&" "&@WorkingDir&"\AsureLData"&$LinkDir2)
+
+;路徑有空白鍵值處理方式，如以下【外部另以雙引號框起來】
+$LinkLink = @AppDataCommonDir & '"\Riot Games"'
+$LinkDir2 = '"\LINE GAME"'
+
 
