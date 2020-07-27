@@ -13,4 +13,8 @@ RunWait(@ComSpec&" /c mklink /j "&@LocalAppDataDir&$LinkDir2&" "&@WorkingDir&"\A
 $LinkLink = @AppDataCommonDir & '"\Riot Games"'
 $LinkDir2 = '"\LINE GAME"'
 
+;Chrome啟動
+$ChromeExe = "D:\Game\GoogleChrome\GoogleChromeWIN7\GoogleChromePortable.exe"
 
+;匯入Registry
+RunWait("reg import "&@WorkingDir&"\x64.reg")
