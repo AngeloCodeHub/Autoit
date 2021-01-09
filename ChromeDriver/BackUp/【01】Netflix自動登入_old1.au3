@@ -22,7 +22,7 @@ _WD_Startup()
 ;一定要在 _WD_Startup()函數後面，先啟動ChromeDriver再宣告 session
 $sSession = _WD_CreateSession($sDesiredCapabilities)
 
-_WD_Navigate($sSession, "https://www.netflix.com/tw/login")
+_WD_Navigate($sSession,"https://www.netflix.com/tw/login")
 _WD_LoadWait($sSession, 2000)
 
 ;填入帳號
@@ -56,15 +56,15 @@ _WD_Shutdown()
 
 
 Func SetupChrome()
-	_WD_Option('Driver', 'chromedriver.exe')
-	_WD_Option('Port', 9515)
+	_WD_Option('Driver','chromedriver.exe')
+	_WD_Option('Port',9515)
 	;_WD_Option('DriverParams', '--verbose --log-path="' & @ScriptDir & '\chrome.log"')    ;關掉Chrome.log功能
 	$sDesiredCapabilities = '{"capabilities":{ _
-			"alwaysMatch" : { _
-			"goog:chromeOptions" : { _
-			"w3c" : True, "binary" : "D:\\GoogleChromePortable64\\App\\Chrome-bin\\chrome.exe", _
-			"excludeSwitches" :["enable-automation"], "useAutomationExtension" : false}}}}'
-EndFunc   ;==>SetupChrome
+							"alwaysMatch":{ _
+							"goog:chromeOptions":{ _
+							"w3c":true,"binary":"D:\\GoogleChromePortable64\\App\\Chrome-bin\\chrome.exe", _
+							"excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
+EndFunc
 
 
 
