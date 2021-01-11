@@ -91,7 +91,7 @@
 #EndRegion Many thanks to:
 
 #Region Global Constants
-Global Const $__WDVERSION = "0.3.1.0"
+Global Const $__WDVERSION = "0.3.1.1"
 
 Global Const $_WD_ELEMENT_ID = "element-6066-11e4-a52e-4f735466cecf"
 Global Const $_WD_EmptyDict  = "{}"
@@ -1568,11 +1568,13 @@ Func __WD_CloseDriver($vDriver = Default)
 			For $j = 0 To UBound($aData) - 1
 				If $aData[$j][1] == 'conhost.exe' Then
 					ProcessClose($aData[$j][0])
+					ProcessWaitClose($aData[$j][0], 5)
 				EndIf
 			Next
 		EndIf
 
 		ProcessClose($aProcessList[$i][1])
+		ProcessWaitClose($aProcessList[$i][1], 5)
     Next
 
 EndFunc ;==>__WD_CloseDriver
