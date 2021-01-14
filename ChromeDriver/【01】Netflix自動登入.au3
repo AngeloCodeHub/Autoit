@@ -37,12 +37,8 @@ $sElement = _WD_FindElement($sSession, $_WD_LOCATOR_ByXPath, $sElementSelector)
 _WD_ElementAction($sSession, $sElement, 'value', "0903661923")
 Sleep(1000)
 
-#cs
-;隱藏"顯示密碼"按鈕
-$sElementSelector = "//*[@id='id_password_toggle']"
-$sElement = _WD_FindElement($sSession, $_WD_LOCATOR_ByXPath, $sElementSelector)
-_WD_ElementAction($sSession, $sElement,'Displayed','none')
-#ce
+;隱藏"顯示密碼"按鈕(搭配Javascript)
+_WD_ExecuteScript($sSession,"return document.getElementById('id_password_toggle').remove();","")
 
 ;填入密碼
 $sElementSelector = "//input[@name='password']"
