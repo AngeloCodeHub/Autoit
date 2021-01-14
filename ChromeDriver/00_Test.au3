@@ -78,7 +78,11 @@ Func SetupChrome()
 	;_WD_Option('DriverParams', '--verbose --log-path="' & @ScriptDir & '\chrome.log"')    ;關掉Chrome.log功能
 	;無痕模式
 	;$sDesiredCapabilities = '{"capabilities":{"alwaysMatch":{"goog:chromeOptions":{"w3c":true,"args":["--incognito"],"binary":"D:\\GoogleChromePortable64\\App\\Chrome-bin\\chrome.exe","excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
-	$sDesiredCapabilities = '{"capabilities":{"alwaysMatch":{"goog:chromeOptions":{"w3c":true,"args":["--user-data-dir=D:\\00Webdriver\\profile"],"binary":"D:\\GoogleChromePortable64\\App\\Chrome-bin\\chrome.exe","excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
+	$sDesiredCapabilities = '{"capabilities":{' & _
+							'"alwaysMatch":{' & _
+							'"goog:chromeOptions":{' & _
+							'"w3c":true,' & _
+							'"args":["--user-data-dir=D:\\00Webdriver\\profile"],"binary":"D:\\GoogleChromePortable64\\App\\Chrome-bin\\chrome.exe","excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
 EndFunc
 
 
