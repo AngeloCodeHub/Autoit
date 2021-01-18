@@ -91,9 +91,10 @@
 #EndRegion Many thanks to:
 
 #Region Global Constants
-Global Const $__WDVERSION = "0.3.1.1"
+Global Const $__WDVERSION = "0.4.0.1"
 
 Global Const $_WD_ELEMENT_ID = "element-6066-11e4-a52e-4f735466cecf"
+Global Const $_WD_SHADOW_ID  = "shadow-6066-11e4-a52e-4f735466cecf"
 Global Const $_WD_EmptyDict  = "{}"
 
 Global Const $_WD_LOCATOR_ByCSSSelector = "css selector"
@@ -536,7 +537,12 @@ Func _WD_Window($sSession, $sCommand, $sOption = Default)
 			$iErr = @error
 
 		Case 'screenshot'
-			$sResponse = __WD_Get($_WD_BASE_URL & ":" & $_WD_PORT & "/session/" & $sSession & "/" & $sCommand)
+			If $sOption = '' Then
+				$sResponse = __WD_Get($_WD_BASE_URL & ":" & $_WD_PORT & "/session/" & $sSession & "/" & $sCommand)
+			Else
+				$sResponse = __WD_Get($_WD_BASE_URL & ":" & $_WD_PORT & "/session/" & $sSession & "/" & $sCommand & '/' & $sOption)
+			EndIf
+
 			$iErr = @error
 
 		Case 'close'
@@ -564,7 +570,7 @@ Func _WD_Window($sSession, $sCommand, $sOption = Default)
 		If $_WD_HTTPRESULT = $HTTP_STATUS_OK Then
 
 			Switch $sCommand
-				Case 'maximize', 'minimize', 'fullscreen', 'close', 'switch', 'frame', 'parent', 'print'
+				Case 'maximize', 'minimize', 'fullscreen', 'close', 'switch', 'frame', 'parent'
 					$sResult = $sResponse
 
 				Case 'new'
@@ -594,12 +600,15 @@ EndFunc   ;==>_WD_Window
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _WD_FindElement
 ; Description ...: Find element(s) by designated strategy
-; Syntax ........: _WD_FindElement($sSession, $sStrategy, $sSelector[, $sStartElement = Default[, $lMultiple = Default]])
+; Syntax ........: _WD_FindElement($sSession, $sStrategy, $sSelector[, $sStartNodeID = Default[, $lMultiple = Default[,
+;                  $lShadowRoot = Default]]])
 ; Parameters ....: $sSession            - Session ID from _WDCreateSession
 ;                  $sStrategy           - Locator strategy. See defined constant $_WD_LOCATOR_* for allowed values
 ;                  $sSelector           - Value to find
-;                  $sStartElement       - [optional] Element ID to use as starting node. Devault is ""
+;                  $sStartNodeID        - [optional] ID to use as starting node. Default is ""
 ;                  $lMultiple           - [optional] Return multiple matching elements? Default is False
+;                  $lShadowRoot         - [optional] Starting node is a shadow root? Default is False
+;
 ; Return values .: Success      - Element ID(s) returned by web driver
 ;                  Failure      - ""
 ;                  @ERROR       - $_WD_ERROR_Success
@@ -608,22 +617,24 @@ EndFunc   ;==>_WD_Window
 ;                  				- $_WD_ERROR_InvalidExpression
 ;                  @EXTENDED    - WinHTTP status code
 ; Author ........: Dan Pollak
-; Modified ......:
+; Modified ......: 01/10/2021
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: https://www.w3.org/TR/webdriver#element-retrieval
 ; Example .......: No
 ; ===============================================================================================================================
-Func _WD_FindElement($sSession, $sStrategy, $sSelector, $sStartElement = Default, $lMultiple = Default)
+Func _WD_FindElement($sSession, $sStrategy, $sSelector, $sStartNodeID = Default, $lMultiple = Default, $lShadowRoot = Default)
 	Local Const $sFuncName = "_WD_FindElement"
-	Local $sCmd, $sElement, $sResponse, $sResult, $iErr
+	Local $sCmd, $sBaseCmd = '', $sResponse, $sResult, $iErr
 	Local $oJson, $oValues, $sKey, $iRow, $aElements[0]
 
-	If $sStartElement = Default Then $sStartElement = ""
+	If $sStartNodeID = Default Then $sStartNodeID = ""
 	If $lMultiple = Default Then $lMultiple = False
+	If $lShadowRoot = Default Then $lShadowRoot = False
 
-	If $sStartElement Then
-		$sElement = "/element/" & $sStartElement
+	If $sStartNodeID Then
+		$sBaseCmd = ($lShadowRoot) ? "/shadow/" : "/element/"
+		$sBaseCmd &= $sStartNodeID
 
 		; Make sure using a relative selector if using xpath strategy
 		If $sStrategy = $_WD_LOCATOR_ByXPath And StringLeft($sSelector, 1) <> '.' Then
@@ -633,10 +644,10 @@ Func _WD_FindElement($sSession, $sStrategy, $sSelector, $sStartElement = Default
 	EndIf
 
 	If $iErr = $_WD_ERROR_Success Then
-		$sCmd = ($lMultiple) ? 'elements' : 'element'
+		$sCmd = '/element' & (($lMultiple) ? 's' : '')
 		$sSelector = __WD_EscapeString($sSelector)
 
-		$sResponse = __WD_Post($_WD_BASE_URL & ":" & $_WD_PORT & "/session/" & $sSession & $sElement & "/" & $sCmd, '{"using":"' & $sStrategy & '","value":"' & $sSelector & '"}')
+		$sResponse = __WD_Post($_WD_BASE_URL & ":" & $_WD_PORT & "/session/" & $sSession & $sBaseCmd & $sCmd, '{"using":"' & $sStrategy & '","value":"' & $sSelector & '"}')
 		$iErr = @error
 	EndIf
 
@@ -702,6 +713,10 @@ EndFunc   ;==>_WD_FindElement
 ;                               | Click
 ;                               | Value
 ;                               | Screenshot
+;                               | Shadow	 - Get element's shadow root
+;                               | CompRole	 - Get element's computed role
+;                               | CompLabel	 - Get element's computed label
+;
 ;                  $sOption             - [optional] a string value. Default is ''.
 ; Return values .: Success      - Requested data returned by web driver
 ;                  Failure      - ""
@@ -728,7 +743,7 @@ Func _WD_ElementAction($sSession, $sElement, $sCommand, $sOption = Default)
 	$sCommand = StringLower($sCommand)
 
 	Switch $sCommand
-		Case 'name', 'rect', 'text', 'selected', 'enabled', 'displayed', 'screenshot'
+		Case 'name', 'rect', 'text', 'selected', 'enabled', 'displayed', 'screenshot', 'shadow', 'comprole', 'complabel'
 			$sResponse = __WD_Get($_WD_BASE_URL & ":" & $_WD_PORT & "/session/" & $sSession & "/element/" & $sElement & "/" & $sCommand)
 			$iErr = @error
 
@@ -754,7 +769,7 @@ Func _WD_ElementAction($sSession, $sElement, $sCommand, $sOption = Default)
 			$iErr = @error
 
 		Case Else
-			Return SetError(__WD_Error($sFuncName, $_WD_ERROR_InvalidDataType, "(Name|Rect|Text|Selected|Enabled|Displayed|Active|Attribute|Property|CSS|Clear|Click|Value|Screenshot) $sCommand=>" & $sCommand), 0, "")
+			Return SetError(__WD_Error($sFuncName, $_WD_ERROR_InvalidDataType, "(Name|Rect|Text|Selected|Enabled|Displayed|Active|Attribute|Property|CSS|Clear|Click|Value|Screenshot|Shadow|CompRole|CompLabel) $sCommand=>" & $sCommand), 0, "")
 
 	EndSwitch
 
