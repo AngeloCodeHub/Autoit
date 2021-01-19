@@ -34,16 +34,16 @@ _WD_LoadWait($sSession,2000)
 ;填入帳號
 $sElementSelector = "//input[@name='userLoginId']"
 $sElement = _WD_FindElement($sSession, $_WD_LOCATOR_ByXPath, $sElementSelector)
-_WD_ElementAction($sSession, $sElement, 'value', "0903661923")
+_WD_ElementAction($sSession, $sElement, 'value', "y3662756@gmail.com")
 Sleep(1000)
 
-;隱藏"顯示密碼"按鈕(搭配Javascript)
+;刪除"顯示密碼"按鈕(搭配Javascript)
 _WD_ExecuteScript($sSession,"return document.getElementById('id_password_toggle').remove();","")
 
 ;填入密碼
 $sElementSelector = "//input[@name='password']"
 $sElement = _WD_FindElement($sSession, $_WD_LOCATOR_ByXPath, $sElementSelector)
-_WD_ElementAction($sSession, $sElement, 'value', "0216")
+_WD_ElementAction($sSession, $sElement, 'value', "y0938627620")
 
 ;netflix首頁的儲存密碼提示標成未打勾
 $sElementSelector = "//*[@id='appMountPoint']/div/div[3]/div/div/div[1]/form/div[3]/div/label"
@@ -62,7 +62,7 @@ _WD_ElementAction($sSession, $sElement, 'click')
 ;將Chrome視窗最大化
 _WD_Window($sSession, "Maximize")
 
-;刪除Chrome Session，這會關掉瀏覽器
+;刪除Chrome Session，關掉瀏覽器
 ;_WD_DeleteSession($sSession)
 
 ;關閉 Webdriver Console
@@ -72,7 +72,14 @@ Func SetupChrome()
 	_WD_Option('Driver','chromedriver.exe')
 	_WD_Option('Port',9515)
 	;_WD_Option('DriverParams', '--verbose --log-path="' & @ScriptDir & '\chrome.log"')    ;關掉Chrome.log功能
-	$sDesiredCapabilities = '{"capabilities":{"alwaysMatch":{"goog:chromeOptions":{"w3c":true,"args":["--user-data-dir=D:\\00Webdriver\\profile"],"binary":"D:\\GoogleChromePortable64\\App\\Chrome-bin\\chrome.exe","excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
+	$sDesiredCapabilities = '{"capabilities":{' & _
+							'"alwaysMatch":{' & _
+							'"goog:chromeOptions":{' & _
+							'"w3c":true,' & _
+							'"args":["--user-data-dir=D:\\00Webdriver\\profile"],' & _
+							'"binary":"D:\\GoogleChromePortable64\\App\\Chrome-bin\\chrome.exe",' & _
+							'"prefs":{"credentials_enable_service":false},' & _
+							'"excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
 EndFunc
 
 
