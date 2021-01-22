@@ -31,8 +31,9 @@ options.binary_location=chromebinaryPath
 options.add_experimental_option("prefs",prefs)
 options.add_argument(argsUserData)
 
+
 #啟動webdriver並啟動Chrome
-driver = webdriver.Chrome(options=options,executable_path=chromedriverPath,)
+driver = webdriver.Chrome(options=options,executable_path=chromedriverPath)
 driver.get("https://www.netflix.com/tw/login")
 #driver.minimize_window()
 
@@ -40,6 +41,7 @@ driver.find_element_by_xpath("//input[@name='userLoginId']").send_keys("5678")
 driver.find_element_by_xpath("//input[@name='password']").send_keys("1234")
 driver.find_element_by_xpath("//*[@id='appMountPoint']/div/div[3]/div/div/div[1]/form/div[3]/div/label").click()
 driver.execute_script("return document.getElementById('id_password_toggle').remove();","")
+
 
 time.sleep(5)
 driver.maximize_window()
