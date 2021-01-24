@@ -15,7 +15,7 @@ $sSession = _WD_CreateSession($sDesiredCapabilities)
 ;https://www.netflix.com/tw/login
 _WD_Navigate($sSession,"https://www.netflix.com/tw/login")
 
-_WD_LoadWait($sSession,1000)
+_WD_LoadWait($sSession)
 
 
 ;填入帳號
@@ -66,11 +66,10 @@ Func SetupChrome()
 				'{"w3c":true,' & _
 				'"binary":"D:\\GoogleChromePortable64\\App\\Chrome-bin\\chrome.exe",' & _
 				'"args":["--user-data-dir=D:\\00Test\\UserProfile"],' & _
-				'"prefs":{"credentials_enable_service":false,"credentials_enable_autosignin":false,},' & _
+				'"prefs":{"credentials_enable_service":false,"credentials_enable_autosignin":false,"profile":{"avatar_index":26,"content_settings":{"enable_quiet_permission_ui_enabling_method":{"notifications":1},"exceptions":{"accessibility_events":{},"app_banner":{},"ar":{},"auto_select_certificate":{},"automatic_downloads":{},"autoplay":{},"background_sync":{},"bluetooth_chooser_data":{},"bluetooth_guard":{},"bluetooth_scanning":{},"camera_pan_tilt_zoom":{},"client_hints":{},"clipboard":{},"cookies":{},"durable_storage":{},"file_system_last_picked_directory":{},"file_system_read_guard":{},"file_system_write_guard":{},"font_access":{},"geolocation":{},"hid_chooser_data":{},"hid_guard":{},"idle_detection":{},"images":{},"important_site_info":{},"insecure_private_network":{},"installed_web_app_metadata":{},"intent_picker_auto_display":{},"javascript":{},"legacy_cookie_access":{},"media_engagement":{},"media_stream_camera":{},"media_stream_mic":{},"midi_sysex":{},"mixed_script":{},"nfc":{},"notifications":{},"password_protection":{},"payment_handler":{},"permission_autoblocking_data":{},"permission_autorevocation_data":{},"popups":{},"ppapi_broker":{},"protocol_handler":{},"safe_browsing_url_check_data":{},"sensors":{},"serial_chooser_data":{},"serial_guard":{},"site_engagement":{},"sound":{},"ssl_cert_decisions":{},"storage_access":{},"subresource_filter":{},"subresource_filter_data":{},"usb_chooser_data":{},"usb_guard":{},"vr":{},"window_placement":{}},"pattern_pairs":{"https://*,*":{"media-stream":{"audio":"Default","video":"Default"}}},"pref_version":1},"creation_time":"13255982777883013","default_content_setting_values":{"geolocation":1,"notifications":2},"default_content_settings":{"geolocation":1,"mouselock":1,"notifications":1,"popups":1,"ppapi-broker":1},"exit_type":"Normal","exited_cleanly":true,"managed_user_id":"","name":"北半球 1","password_manager_enabled":false}},' & _
 				'"excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
 EndFunc
 
 
 ;,"--app=https://www.netflix.com/tw/login"
-;'"args":["--user-data-dir=D:\\00Test\\UserProfile","--disable-notifications"],' & _
 ;'"prefs":{"credentials_enable_service":false,"credentials_enable_autosignin":false},' & _
