@@ -14,7 +14,7 @@ Local $aBrowsers[][2] = [["Firefox", SetupGecko], _
 						["Chrome", SetupChrome], _
 						["Edge", SetupEdge]]
 
-Local $aDemoSuite[][2] = [["DemoTimeouts", False], _
+Local $aDemoSuite[][2] =[["DemoTimeouts", False], _
 						["DemoNavigation", True], _
 						["DemoElements", False], _
 						["DemoScript", False], _
@@ -368,11 +368,20 @@ $sDesiredCapabilities = '{"capabilities": {"alwaysMatch": {"browserName": "firef
 EndFunc
 
 Func SetupChrome()
-_WD_Option('Driver', 'chromedriver.exe')
+_WD_Option('Driver', 'F:\chromedriver.exe')
 _WD_Option('Port', 9515)
 _WD_Option('DriverParams', '--verbose --log-path="' & @ScriptDir & '\chrome.log"')
+$sDesiredCapabilities = _
+	'{"capabilities":' & _
+		'{"alwaysMatch":' & _
+			'{"goog:chromeOptions":' & _
+				'{"w3c":true,' & _
+				'"binary":"D:\\GoogleChromePortable64\\App\\Chrome-bin\\chrome.exe",' & _
+				'"prefs":{"credentials_enable_service":false,"credentials_enable_autosignin":false},' & _
+				'"args":["--user-data-dir=D:\\00Test\\UserProfile"],' & _
+				'"excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
 
-$sDesiredCapabilities = '{"capabilities": {"alwaysMatch": {"goog:chromeOptions": {"w3c": true, "excludeSwitches": [ "enable-automation"], "useAutomationExtension": false }}}}'
+;$sDesiredCapabilities = '{"capabilities": {"alwaysMatch": {"goog:chromeOptions": {"w3c": true, "excludeSwitches": [ "enable-automation"], "useAutomationExtension": false }}}}'
 EndFunc
 
 Func SetupEdge()

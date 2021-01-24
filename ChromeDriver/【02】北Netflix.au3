@@ -11,6 +11,10 @@
 ●(未解決)登入畫面將顯示密碼功能隱藏 or remove
 	1.登入畫面將顯示密碼功能隱藏不給按，hide element
 	2.輸入帳密不顯示，但是有輸入的動作
+
+20210124
+●以app模式開啟網站
+
 ========================================================================================
 #ce
 
@@ -27,7 +31,7 @@ _WD_Startup()
 ;一定要在 _WD_Startup()函數後面，先啟動ChromeDriver再宣告 session
 $sSession = _WD_CreateSession($sDesiredCapabilities)
 
-_WD_Navigate($sSession,"https://www.netflix.com/tw/login")
+_WD_Navigate($sSession,"")
 _WD_LoadWait($sSession,1000)
 
 
@@ -57,8 +61,6 @@ $sElementSelector = "//*[@id='appMountPoint']/div/div[3]/div/div/div[1]/form/but
 $sElement = _WD_FindElement($sSession, $_WD_LOCATOR_ByXPath, $sElementSelector)
 _WD_ElementAction($sSession, $sElement, 'click')
 
-;模擬移動滑鼠，防止偵測機器人導致登入失敗(顯示密碼錯誤)
-
 ;將Chrome視窗最大化
 _WD_Window($sSession, "Maximize")
 
@@ -72,8 +74,8 @@ Func SetupChrome()
 	_WD_Option('Driver','Z:\HonrayTools\chromedriver.exe')
 	_WD_Option('Port',9515)
 	;_WD_Option('DriverParams', '--verbose --log-path="' & @ScriptDir & '\chrome.log"')    ;關掉Chrome.log功能
-	$sDesiredCapabilities = '{"capabilities":{"alwaysMatch":{"goog:chromeOptions":{"w3c":true,"binary":"D:\\Tool\\ChromeGreen\\App\\Chrome-bin\\chrome.exe","prefs":{"credentials_enable_service":false},"excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
+	$sDesiredCapabilities = '{"capabilities":{"alwaysMatch":{"goog:chromeOptions":{"w3c":true,"binary":"D:\\Tool\\ChromeGreen\\App\\Chrome-bin\\chrome.exe","prefs":{"credentials_enable_service":false},"args":["--app=https://www.netflix.com/tw/login"],"excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
 EndFunc
-;'"args":["--user-data-dir=D:\\00Webdriver\\profile"],' & _
+
 
 
