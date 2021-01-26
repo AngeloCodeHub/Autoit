@@ -1,3 +1,12 @@
+
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_Outfile_x64=121測試.Exe
+#AutoIt3Wrapper_Compression=0
+#AutoIt3Wrapper_Res_Language=1028
+#AutoIt3Wrapper_Run_Au3Stripper=y
+#Au3Stripper_Parameters=/so /rm /pe
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
+
 #cs
 ========================================================================================
 ---待新增功能---
@@ -32,7 +41,7 @@ _WD_Startup()
 $sSession = _WD_CreateSession($sDesiredCapabilities)
 
 _WD_Navigate($sSession,"")
-_WD_LoadWait($sSession,1000)
+_WD_LoadWait($sSession)
 
 
 ;填入帳號
