@@ -1,6 +1,6 @@
 
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#AutoIt3Wrapper_Outfile_x64=121測試.Exe
+#AutoIt3Wrapper_Outfile_x64=北半球Netflix.Exe
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Language=1028
 #AutoIt3Wrapper_Run_Au3Stripper=y
@@ -83,7 +83,7 @@ Func SetupChrome()
 	_WD_Option('Driver','Z:\HonrayTools\chromedriver.exe')
 	_WD_Option('Port',9515)
 	;_WD_Option('DriverParams', '--verbose --log-path="' & @ScriptDir & '\chrome.log"')    ;關掉Chrome.log功能
-	$sDesiredCapabilities = '{"capabilities":{"alwaysMatch":{"goog:chromeOptions":{"w3c":true,"binary":"D:\\Tool\\ChromeGreen\\App\\Chrome-bin\\chrome.exe","prefs":{"credentials_enable_service":false},"args":["--app=https://www.netflix.com/tw/login"],"excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
+	$sDesiredCapabilities='{"capabilities":{"alwaysMatch":{"goog:chromeOptions":{"w3c":true,"binary":"D:\\Tool\\ChromeGreen\\App\\Chrome-bin\\chrome.exe","prefs":{"credentials_enable_service":false},"args":["--app=https://www.netflix.com/tw/login"],"excludeSwitches":["enable-automation"],"useAutomationExtension":false}}}}'
 EndFunc
 
 
